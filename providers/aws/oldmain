@@ -1,0 +1,52 @@
+provider "aws" {
+  region = "${var.region}"
+}
+
+module vpc {
+  source   = "../../../modules/aws/network/vpc"
+  vpc_cidr = "${var.vpc_cidr}"
+
+  vpc_tags {
+    Name           = "10.204.0.0/16 VPC used for development and testing"
+    programme      = "${var.programme}"
+    project        = "${var.project}"
+    product        = "${var.product}"
+    cost_centre    = "${var.cost_centre}"
+    creator        = "${var.userid}"
+    environment    = "${var.environment}"
+    security_class = "${var.security_class}"
+    terraform      = "true"
+    expiry         = "${var.expiry}"
+    cname          = "${var.cname}"
+    dr             = "${var.dr}"
+    support        = "${var.support}"
+  }
+}
+
+module subnets {
+  source = "../../../modules/aws/network/subnets"
+  vpc_id = "${module.vpc.id}"
+
+  #  subnet_names = ["${concat(var.private_subnets,var.mixed_cidrs,var.public_subnets)}"]
+  #  subnet_cidrs = ["${concat(var.private_cidrs,var.mixed_cidrs,var.public_cidrs)}"]
+
+  subnet_tags {
+    x = "y"
+  }
+}
+
+# module private_routing {
+#   source       = "../../../modules/aws/network/private_routing"
+#   vpc_id       = "${module.vpc.id}"
+#   subnet_names = "${var.public_subnets}"
+#   subnet_ids   = ["${module.subnets.ids}"]
+# }
+# 
+# module public_routing {
+#   source       = "../../../modules/aws/network/public_routing"
+#   vpc_id       = "${module.vpc.id}"
+#   subnet_names = "${var.public_subnets}"
+#   subnet_ids   = ["${module.subnets.ids}"]
+# }
+# 
+

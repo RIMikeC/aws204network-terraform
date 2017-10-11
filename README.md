@@ -1,18 +1,15 @@
+This repository stores the terrraform for the 10.204/12 network.
 
-
-Modules are stored in this repo and may be used in service repos to deploy code.
 
 ### Guidance material
 
 - Hashicorp's [best practices](https://github.com/hashicorp/best-practices/tree/master/terraform)
 
-- Hashicorps reccommendation on how to manage [multiple environments ](https://atlas.hashicorp.com/help/intro/use-cases/multiple-environments)
-
 - Organisation Module Hirarchy [here](https://github.com/hashicorp/terraform/issues/3838)
 
 ### Repo layout
-- The modules folder contains reused modules
-- The providers folder contains environment specific terraform code that should only contain modules if used more than once.
+- The modules folder contains the reuseable code that defines resources
+- The providers folder contains the code that calls the modules, using variables to differentiate between enviroments and projects
 
 ### How to
 
@@ -36,13 +33,11 @@ This is highlighted in the Terraform best practices documentation.
 
 Put your modules in here.
 
-### /modules/test
-
-Module test folders should be in here
-
 ### /providers/aws
 
-Set up your environment aws accounts in here.
+This contains one folder per project. If you want to test some code, then put it in a project/test subfolder.
+Here it will be planned by make, but not applied.
+
 
 ```
 .
