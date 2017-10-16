@@ -1,0 +1,150 @@
+provider "aws" {
+  region = "${var.region}"
+}
+
+# Create a VPC
+
+module vpc {
+  source   = "../../../modules/aws/network/vpc"
+  vpc_cidr = "${var.vpc_cidr}"
+
+  vpc_tags {
+    Name           = "Development VPC"
+    programme      = "${var.programme}"
+    project        = "${var.project}"
+    product        = "${var.product}"
+    cost_centre    = "${var.cost_centre}"
+    creator        = "${var.userid}"
+    environment    = "${var.environment}"
+    security_class = "${var.security_class}"
+    terraform      = "true"
+    expiry         = "${var.expiry}"
+    cname          = "${var.cname}"
+    dr             = "${var.dr}"
+    support        = "${var.support}"
+  }
+}
+
+# Divide the VPC just created into subnets
+
+module subnets {
+  source = "../../../modules/aws/network/sub"
+  vpc_id = "${module.vpc.id}"
+
+  subnet_cidrs = ["${concat(var.private_cidrs,var.mixed_cidrs,var.public_cidrs)}"]
+  subnet_names = ["${concat(var.private_subnets,var.mixed_subnets,var.public_subnets)}"]
+
+  programme      = "${var.programme}"
+  project        = "${var.project}"
+  product        = "${var.product}"
+  cost_centre    = "${var.cost_centre}"
+  userid         = "${var.userid}"
+  environment    = "${var.environment}"
+  security_class = "${var.security_class}"
+  expiry         = "${var.expiry}"
+  cname          = "${var.cname}"
+  dr             = "${var.dr}"
+  support        = "${var.support}"
+}
+
+# module private_routing {
+#   source       = "../../../modules/aws/network/private_routing"
+#   vpc_id       = "${module.vpc.id}"
+#   subnet_names = "${var.public_subnets}"
+#   subnet_ids   = ["${module.subnets.ids}"]
+# }
+#
+# module public_routing {
+#   source       = "../../../modules/aws/network/public_routing"
+#   vpc_id       = "${module.vpc.id}"
+#   subnet_names = "${var.public_subnets}"
+#   subnet_ids   = ["${module.subnets.ids}"]
+# }
+#
+
+# Add a VPN gateway
+module vpn_gate {
+  source         = "../../../modules/aws/network/vpn_gate"
+  vpc_id         = "${module.vpc.id}"
+  subnet_names   = "${subnet_names}"
+  subnet_ids     = ["${module.subnets.ids}"]
+vpc_tags {
+  programme      = "${var.programme}"
+  project        = "${var.project}"
+  product        = "${var.product}"
+  cost_centre    = "${var.cost_centre}"
+  userid         = "${var.userid}"
+  environment    = "${var.environment}"
+  security_class = "${var.security_class}"
+  expiry         = "${var.expiry}"
+  cname          = "${var.cname}"
+  dr             = "${var.dr}"
+  support        = "${var.support}"
+}
+}
+
+# Add private routes
+
+# module private_route {
+#   source         = "../../../modules/aws/network/private_route"
+#   vpc_id         = "${module.vpc.id}"
+#   vgw_id         = "${module.vpn_gate.id}"
+#   subnet_names   = "${subnet_names}"
+#   subnet_ids     = ["${module.subnets.ids}"]
+#   programme      = "${var.programme}"
+#   project        = "${var.project}"
+#   product        = "${var.product}"
+#   cost_centre    = "${var.cost_centre}"
+#   userid         = "${var.userid}"
+#   environment    = "${var.environment}"
+#   security_class = "${var.security_class}"
+#   expiry         = "${var.expiry}"
+#   cname          = "${var.cname}"
+#   dr             = "${var.dr}"
+#   support        = "${var.support}"
+# }
+# 
+# 
+# # Add egress routes
+# 
+# module egress_route {
+#   source         = "../../../modules/aws/network/egress_route"
+#   vpc_id         = "${module.vpc.id}"
+#   vgw_id         = "${module.vpn_gate.id}"
+#   subnet_names   = "${subnet_names}"
+#   subnet_ids     = ["${module.subnets.ids}"]
+#   programme      = "${var.programme}"
+#   project        = "${var.project}"
+#   product        = "${var.product}"
+#   cost_centre    = "${var.cost_centre}"
+#   userid         = "${var.userid}"
+#   environment    = "${var.environment}"
+#   security_class = "${var.security_class}"
+#   expiry         = "${var.expiry}"
+#   cname          = "${var.cname}"
+#   dr             = "${var.dr}"
+#   support        = "${var.support}"
+# }
+# 
+# 
+# # Add public routes
+# 
+# module public_route {
+#   source         = "../../../modules/aws/network/public_route"
+#   vpc_id         = "${module.vpc.id}"
+#   vgw_id         = "${module.vpn_gate.id}"
+#   subnet_names   = "${subnet_names}"
+#   subnet_ids     = ["${module.subnets.ids}"]
+#   programme      = "${var.programme}"
+#   project        = "${var.project}"
+#   product        = "${var.product}"
+#   cost_centre    = "${var.cost_centre}"
+#   userid         = "${var.userid}"
+#   environment    = "${var.environment}"
+#   security_class = "${var.security_class}"
+#   expiry         = "${var.expiry}"
+#   cname          = "${var.cname}"
+#   dr             = "${var.dr}"
+#   support        = "${var.support}"
+# }
+# 

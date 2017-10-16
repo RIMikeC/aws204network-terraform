@@ -1,6 +1,5 @@
 # Variables
 
-
 variable region {
   default = "us-east-1"
 }
@@ -129,5 +128,38 @@ variable "public" {
   type        = "string"
   description = "boolean value for if instance is public or not"
   default     = "false"
+}
+
+variable "vgw_id" {
+  type        = "string"
+  description = "VPN gateway id"
+  default     = "undefined"
+}
+
+variable "pr_tags" {
+  type        = "map"
+  description = "private route table tags"
+
+  default = {
+    Name = "default"
+  }
+}
+
+variable "ri_dc_dns_server" {
+  type        = "string"
+  description = "ip address for the dns server in the ri dc"
+  default     = "10.150.130.16"
+}
+
+# variable "ri_domain" {
+#   description = "Domain"
+#   type        = "string"
+#   default     = "undefined"
+# }
+# 
+variable "ri_name_servers" {
+  description = "List of domain name servers"
+  type        = "list"
+  default     = ["undefined"]
 }
 
