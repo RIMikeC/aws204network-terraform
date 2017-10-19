@@ -38,5 +38,4 @@ resource "aws_internet_gateway" "igw" {
   tags   = "${var.vpc_tags}"
 }
 
-# Create DHCP options as per https://github.com/River-Island/shared-terraform/blob/master/modules/transit/vpc.tf
 
