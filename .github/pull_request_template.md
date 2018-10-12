@@ -1,5 +1,5 @@
 #                    FREEZE!
-![Frozen](frozen_wide.jpg)
+![Frozen](aws204network-terraform/.github/frozen_wide.jpg)
 #
 ---
 ### The change freeze lasts until 12th November
