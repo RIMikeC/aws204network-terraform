@@ -1,6 +1,4 @@
-#                    FREEZE!
-![Frozen](frozen_wide.jpg)
-#
+#  *****      CHANGE FREEZE     *****
 ---
 ### The change freeze lasts until 12th November
 
@@ -9,4 +7,4 @@
 #### move into peak trading.
 
 Any critical changes that fall within this change freeze will need to be reviewed by the RI Tech Service Delivery Team.
-Got a question? Please contact Phil Leonard, Service Delivery Manager.
+Got a question? Please contact Phil Leonard (Service Delivery Manager), or Mike Charles
