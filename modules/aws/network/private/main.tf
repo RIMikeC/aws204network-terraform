@@ -3,14 +3,11 @@
 # identifiers are passed in as a parameter
 #--------------------------------------------------------------
 
-
 ## Create a route table to be used by all private subnets in this VPC
 
 resource "aws_route_table" "private" {
   vpc_id = "${var.vpc_id}"
-  tags  = "${var.pr_tags}"
-
-
+  tags   = "${var.pr_tags}"
 }
 
 ## Create association between subnets and route table
